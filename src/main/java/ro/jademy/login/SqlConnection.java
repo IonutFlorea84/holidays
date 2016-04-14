@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,6 +27,7 @@ class SqlConnection {
     private String dbUsername;
     private String dbPassword;
     private String dbName;
+    private String tableName = "useri";
     
     protected SqlConnection (String dbName, String dbUser, String dbPass){
         this.dbName = dbName;
@@ -62,6 +64,7 @@ class SqlConnection {
             throw new RuntimeException ("Cannot found user!", ex);
         }
     }
+    
     protected boolean loginUser (String username, String password){
         PreparedStatement statement = null;
         String query = "Select * from useri where username=?and password=?;";
@@ -92,6 +95,29 @@ class SqlConnection {
         }
         
     }
+    protected void addUserToDB (User user){
+        PreparedStatement statement;
+        String query = "INSERT INTO " + tableName + " (username, password, name, surname, email, department, hir_date,address,  phone, gender)"
+                + " values (?, ?, ?, ?, ?, ?,?, ?, ?, ?);";
+        
+        try {
+            statement = conn.prepareStatement(query);
+            statement.setString(1, user.getUsername());
+            statement.setString(2, user.getPassword());
+            statement.setString(3, user.getName());
+            statement.setString(4, user.getSurname());
+            statement.setString(5, user.getEmail());
+            statement.setString(6, user.getDepartment());
+            statement.setDate(7, new java.sql.Date(user.getHir_date().getTime()));
+            statement.setString(8, user.getAddress());
+            statement.setString(9, user.getPhone());
+            statement.setString(10, user.getGender());
+            statement.execute();
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot add user to Db", e);
+        }
+    }
+    
     protected ResultSet listDB(String DBname){
         PreparedStatement statement;
         String query = "select * from " + DBname + ";";
@@ -101,11 +127,20 @@ class SqlConnection {
             
             return statement.executeQuery();
         } catch (Exception e) {
-            throw new RuntimeException("cannot retrieve users", e);
+            throw new RuntimeException("cannot retrieve database", e);
         }
     }
     protected ResultSet listDB(){
         return this.listDB();
+    }
+
+    
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
     
         

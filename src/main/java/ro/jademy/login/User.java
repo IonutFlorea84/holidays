@@ -5,7 +5,7 @@
  */
 package ro.jademy.login;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  *
@@ -18,9 +18,9 @@ public class User {
     private String surname;
     private String email;
     private String department;
-    private String hir_date;
+    private Date hir_date;
     private String address;
-    private int phone;
+    private String phone;
     private String gender;
 
     /**
@@ -110,14 +110,14 @@ public class User {
     /**
      * @return the hir_date
      */
-    public String getHir_date() {
+    public Date getHir_date() {
         return hir_date;
     }
 
     /**
      * @param hir_date the hir_date to set
      */
-    public void setHir_date(String hir_date) {
+    public void setHir_date(Date hir_date) {
         this.hir_date = hir_date;
     }
 
@@ -138,14 +138,14 @@ public class User {
     /**
      * @return the phone
      */
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
     /**
      * @param phone the phone to set
      */
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

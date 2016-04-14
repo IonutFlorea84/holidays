@@ -10,10 +10,18 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Register Page </title>
+        
+        <link rel="stylesheet" type="text/css" href="css/login.css">
+        <div id="logoHeader">
+            <div id="logo">
+                <img src="css/logo.png">
+            </div>
+        </div>
     </head>
     <body>
-
+        
         <form action="register_form" method="post">
+            <div id="center">
             <table>
                 <tr> 
                     <td>Username:</td>
@@ -45,7 +53,7 @@
                 </tr>               
                 <tr> 
                     <td>Address:</td>
-                    <td><input type="text" name = "adress"></td>
+                    <td><input type="text" name = "address"></td>
                 </tr>               
                 <tr> 
                     <td>Phone:</td>
@@ -58,8 +66,10 @@
 
 
             </table><br>
-            <input type="submit" name="register" value="Register!">  
+            <center>
+                <input type="submit" name="register" value="Register!">  
+            </center>
         </form>
-
+</div>
     </body>
 </html>

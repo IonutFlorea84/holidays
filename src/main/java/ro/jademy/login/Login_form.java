@@ -40,25 +40,33 @@ public class Login_form extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        String tableName = "grades";
+        
+        // Get form input values
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        
+        
         SqlConnection sqlConn = new SqlConnection();
         sqlConn.makeConnection();
-        boolean answer = false;
-        boolean login = false;
-        StringBuilder userTable = new StringBuilder("<table>");
+        
         ServletContext context = getServletContext();
-        RequestDispatcher dispatcher = context.getRequestDispatcher("/result.jsp");
+        RequestDispatcher dispatcher = context.getRequestDispatcher("/result.jsp");;
+        
+        StringBuilder userTable = new StringBuilder("<table>");
         List<String> tableHeadName = new ArrayList<>();
+        
         if (request.getParameter("login") != null) {
             if (sqlConn.loginUser(username, password)) {
-                ResultSet users = sqlConn.listDB("grades");
+                
                 try {
-                    ResultSetMetaData rsmd = users.getMetaData();
+                    ResultSet dbResult = sqlConn.listDB(tableName);
+                    ResultSetMetaData rsmd = dbResult.getMetaData();
                     int columnCount = rsmd.getColumnCount();
+                    
                     userTable.append("<tr>");
                     for (int i = 1; i <= columnCount; i++) {
+                        
                         String name = rsmd.getColumnName(i);
                         tableHeadName.add(name);
                         
@@ -68,36 +76,36 @@ public class Login_form extends HttpServlet {
                     }
                     userTable.append("</tr>");
 
-                    while (users.next()) {
+                    while (dbResult.next()) {
                         userTable.append("<tr>");
                         for (String th : tableHeadName) {
                             if (!th.equals("id")){
-                                userTable.append("<td>").append(users.getString(th)).append("</td>");
+                                userTable.append("<td>").append(dbResult.getString(th)).append("</td>");
                             }
                         }
                         userTable.append("</tr>");
                     }
                     userTable.append("</table>");
+                    
                 } catch (SQLException ex) {
-                    Logger.getLogger(Login_form.class.getName()).log(Level.SEVERE, null, ex);
+                    ex.printStackTrace();
                 }
+                
                 request.setAttribute("result", "Autentificare reusita");
                 request.setAttribute("userlist", userTable.toString());
+                
                 dispatcher = context.getRequestDispatcher("/listUsers.jsp");
             } else {
                 request.setAttribute("result", "Username or password wrong");
             }
+            dispatcher.forward(request, response);
         } 
-//        else if (request.getParameter("register") != null) {
-//            if (sqlConn.checkIfUserExists(username)) {
-//                request.setAttribute("result", "Username already in use.");
-//            } else {
-//                sqlConn.addUserToDB(username, password);
-//                request.setAttribute("result", "Userul a fost inregistrat");
-//            }
-//        }
+        else if (request.getParameter("register") != null) {
+            
+            response.sendRedirect("register.jsp");
+        }
 
-        dispatcher.forward(request, response);
+        
 
     }
 
