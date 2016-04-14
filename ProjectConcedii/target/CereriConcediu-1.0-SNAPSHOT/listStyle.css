@@ -1,0 +1,48 @@
+#style {
+            position: absolute;
+            top: 30%;
+            left: 0px;
+            right: 0px;
+            height: 100px;
+            margin-top: -70px;
+            background: #1FC4E7;
+            color: white;
+            padding: 20px;
+        }
+        #logoHeader {
+            margin: auto;
+            width: 40%;
+            height: 30%;
+            border: 3px solid #1FC4E7;
+            padding: 10px;
+        } 
+        #logo {
+            width: 40%;
+			margin-left:35%;
+        }
+        body {
+            background-color:#E6E6FA;
+        }
+        table {
+    border-collapse: collapse;
+}
+
+table, td, th {
+	text-align:center;
+	
+	width:40%;
+	
+        border: 1px solid black;
+	
+	padding: 3px;
+}
+table {
+    width: 80%;
+    margin:auto;
+}
+th{
+	background-color: #fefefe;
+	color: #2299ff;
+	padding: 10px;
+}
+tr:nth-child(even){background-color: #d0d0e0}
