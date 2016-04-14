@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Owner
  */
 @WebServlet(urlPatterns = {"/login_form"})
-public class login_form extends HttpServlet {
+public class Login_form extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,7 +43,6 @@ public class login_form extends HttpServlet {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        System.out.println("'" + username + "' '" + password + "'");
         SqlConnection sqlConn = new SqlConnection();
         sqlConn.makeConnection();
         boolean answer = false;
@@ -80,7 +79,7 @@ public class login_form extends HttpServlet {
                     }
                     userTable.append("</table>");
                 } catch (SQLException ex) {
-                    Logger.getLogger(login_form.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Login_form.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 request.setAttribute("result", "Autentificare reusita");
                 request.setAttribute("userlist", userTable.toString());
@@ -88,14 +87,15 @@ public class login_form extends HttpServlet {
             } else {
                 request.setAttribute("result", "Username or password wrong");
             }
-        } else if (request.getParameter("register") != null) {
-            if (sqlConn.checkIfUserExists(username)) {
-                request.setAttribute("result", "Username already in use.");
-            } else {
-                sqlConn.addUserToDB(username, password);
-                request.setAttribute("result", "Userul a fost inregistrat");
-            }
-        }
+        } 
+//        else if (request.getParameter("register") != null) {
+//            if (sqlConn.checkIfUserExists(username)) {
+//                request.setAttribute("result", "Username already in use.");
+//            } else {
+//                sqlConn.addUserToDB(username, password);
+//                request.setAttribute("result", "Userul a fost inregistrat");
+//            }
+//        }
 
         dispatcher.forward(request, response);
 
