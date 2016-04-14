@@ -7,13 +7,6 @@ package ro.jademy.login;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,9 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Gabi
+ * @author Owner
  */
-public class Register_form extends HttpServlet {
+public class Dashboard extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,43 +29,12 @@ public class Register_form extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-
-        SqlConnection conn = new SqlConnection();
-        conn.makeConnection();
-
-        ServletContext context = getServletContext();
-        RequestDispatcher dispatcher = context.getRequestDispatcher("/result.jsp");
-
-        try {
-            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("hir_date"));
-
-            if (!conn.checkIfUserExists(username)) {
-
-                User registerUser = new User();
-
-                registerUser.setUsername(username);
-                registerUser.setPassword(request.getParameter("password"));
-                registerUser.setName(request.getParameter("name"));
-                registerUser.setSurname(request.getParameter("surname"));
-                registerUser.setEmail(request.getParameter("email"));
-                registerUser.setDepartment(request.getParameter("department"));
-                registerUser.setHir_date(date);
-                registerUser.setAddress(request.getParameter("address"));
-                registerUser.setPhone(Integer.parseInt(request.getParameter("phone")));
-                registerUser.setGender(request.getParameter("gender"));
-
-                conn.addUserToDB(registerUser);
-
-                context.setAttribute("result", "added to db");
-                dispatcher = context.getRequestDispatcher("/listUsers.jsp");
-
-            }
-        } catch (ParseException ex) {
-            ex.printStackTrace();
+        
+        if (request.getParameter("action").equals("show")){
+            request.setAttribute("result", "Hello");
+            
         }
-
-        dispatcher.forward(request, response);
+        request.getRequestDispatcher("/dashboard.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

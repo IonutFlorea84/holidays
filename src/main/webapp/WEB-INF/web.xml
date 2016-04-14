@@ -8,6 +8,10 @@
         <servlet-name>Register_form</servlet-name>
         <servlet-class>ro.jademy.login.Register_form</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Dashboard</servlet-name>
+        <servlet-class>ro.jademy.login.Dashboard</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>login_form</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>Register_form</servlet-name>
         <url-pattern>/register_form</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Dashboard</servlet-name>
+        <url-pattern>/dashboard</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

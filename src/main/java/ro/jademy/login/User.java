@@ -20,9 +20,26 @@ public class User {
     private String department;
     private Date hir_date;
     private String address;
-    private String phone;
+    private int phone;
     private String gender;
 
+    public User(String username, String password, String name, String surname, String email, String department, Date hir_date, String address, int phone, String gender) {
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.department = department;
+        this.hir_date = hir_date;
+        this.address = address;
+        this.phone = phone;
+        this.gender = gender;
+    }
+    public User(){
+        
+    }
+    
+    
     /**
      * @return the username
      */
@@ -138,14 +155,14 @@ public class User {
     /**
      * @return the phone
      */
-    public String getPhone() {
+    public int getPhone() {
         return phone;
     }
 
     /**
      * @param phone the phone to set
      */
-    public void setPhone(String phone) {
+    public void setPhone(int phone) {
         this.phone = phone;
     }
 

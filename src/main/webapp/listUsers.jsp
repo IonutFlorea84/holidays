@@ -4,7 +4,11 @@
     Author     : Owner
 --%>
 
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="ro.jademy.login.User"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +27,41 @@
         <h1>${result}</h1><br>
     </center>
     <div id ="table">
-        ${userlist}
+        
+        <table>
+                <thead>
+                <td>
+                    <b>Username</b>
+                </td>
+                <td>
+                    <b>Name</b>
+                </td>
+                <td>
+                    <b>Surname</b>
+                </td>
+                <td>
+                    <b>Gender</b>
+                </td>
+                </thead>
+                <c:forEach items="${list}" var="item">
+                    <tr>
+                        <td>
+                            ${item.username}
+                        </td>
+                        <td>
+                            ${item.name}
+                        </td>
+                        <td>
+                            ${item.surname}
+                        </td>
+                        <td>
+                            ${item.gender}
+                        </td>
+                       
+                    </tr>
+                </c:forEach>
+
+            </table>
     </div>
 </body>
 </html>

@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -110,7 +111,7 @@ class SqlConnection {
             statement.setString(6, user.getDepartment());
             statement.setDate(7, new java.sql.Date(user.getHir_date().getTime()));
             statement.setString(8, user.getAddress());
-            statement.setString(9, user.getPhone());
+            statement.setInt(9, user.getPhone());
             statement.setString(10, user.getGender());
             statement.execute();
         } catch (Exception e) {
@@ -118,11 +119,17 @@ class SqlConnection {
         }
     }
     
-    protected ResultSet listDB(String DBname){
+    protected ResultSet listDB(String tableName){
         PreparedStatement statement;
-        String query = "select * from " + DBname + ";";
+        String query;
+        if (tableName == null){
+            query = "select * from " + this.tableName + ";";
+        } else {
+            query = "select * from " + tableName + ";";
+        }
         
         try {
+            
             statement = conn.prepareStatement(query);
             
             return statement.executeQuery();
@@ -133,13 +140,32 @@ class SqlConnection {
     protected ResultSet listDB(){
         return this.listDB();
     }
+    protected ArrayList<User> listUsers (String tableName){
+        PreparedStatement statement;
+        String query = "select * from " + tableName + ";";
+        ArrayList<User> toReturn = new ArrayList<>();
+        
+        try {
+            ResultSet result = conn.prepareStatement(query).executeQuery();
+            
+            while (result.next()){
+                toReturn.add(new User(result.getString("username"), result.getString("password"), result.getString("name"), result.getString("surname"),
+                        result.getString("email"), result.getString("department"), result.getDate("hir_date"), result.getString("address"),
+                        result.getInt("phone"), result.getString("gender")));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return toReturn;
+    }
 
     
-    public String getTableName() {
+    protected String getTableName() {
         return tableName;
     }
 
-    public void setTableName(String tableName) {
+    protected void setTableName(String tableName) {
         this.tableName = tableName;
     }
     

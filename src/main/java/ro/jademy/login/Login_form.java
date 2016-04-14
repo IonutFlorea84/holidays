@@ -56,43 +56,44 @@ public class Login_form extends HttpServlet {
         StringBuilder userTable = new StringBuilder("<table>");
         List<String> tableHeadName = new ArrayList<>();
         
+        
         if (request.getParameter("login") != null) {
             if (sqlConn.loginUser(username, password)) {
                 
-                try {
-                    ResultSet dbResult = sqlConn.listDB(tableName);
-                    ResultSetMetaData rsmd = dbResult.getMetaData();
-                    int columnCount = rsmd.getColumnCount();
-                    
-                    userTable.append("<tr>");
-                    for (int i = 1; i <= columnCount; i++) {
-                        
-                        String name = rsmd.getColumnName(i);
-                        tableHeadName.add(name);
-                        
-                        if (!name.equals("id")) {
-                            userTable.append("<th>").append(name).append("</th>");
-                        }
-                    }
-                    userTable.append("</tr>");
-
-                    while (dbResult.next()) {
-                        userTable.append("<tr>");
-                        for (String th : tableHeadName) {
-                            if (!th.equals("id")){
-                                userTable.append("<td>").append(dbResult.getString(th)).append("</td>");
-                            }
-                        }
-                        userTable.append("</tr>");
-                    }
-                    userTable.append("</table>");
-                    
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-                
+//                try {
+//                    ResultSet dbResult = sqlConn.listDB(tableName);
+//                    ResultSetMetaData rsmd = dbResult.getMetaData();
+//                    int columnCount = rsmd.getColumnCount();
+//                    
+//                    userTable.append("<tr>");
+//                    for (int i = 1; i <= columnCount; i++) {
+//                        
+//                        String name = rsmd.getColumnName(i);
+//                        tableHeadName.add(name);
+//                        
+//                        if (!name.equals("id")) {
+//                            userTable.append("<th>").append(name).append("</th>");
+//                        }
+//                    }
+//                    userTable.append("</tr>");
+//
+//                    while (dbResult.next()) {
+//                        userTable.append("<tr>");
+//                        for (String th : tableHeadName) {
+//                            if (!th.equals("id")){
+//                                userTable.append("<td>").append(dbResult.getString(th)).append("</td>");
+//                            }
+//                        }
+//                        userTable.append("</tr>");
+//                    }
+//                    userTable.append("</table>");
+//                    
+//                } catch (SQLException ex) {
+//                    ex.printStackTrace();
+//                }
+                ArrayList<User> userList = sqlConn.listUsers("useri");
                 request.setAttribute("result", "Autentificare reusita");
-                request.setAttribute("userlist", userTable.toString());
+                request.setAttribute("list", userList);
                 
                 dispatcher = context.getRequestDispatcher("/listUsers.jsp");
             } else {

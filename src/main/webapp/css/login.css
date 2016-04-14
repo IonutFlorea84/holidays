@@ -21,14 +21,14 @@ and open the template in the editor.
 }
 #logoHeader {
     margin: auto;
-    width: 40%;
-    height: 30%;
+    width: 95%;
+    height: 10%;
     border: 3px solid #1FC4E7;
     padding: 10px;
 } 
 #logo {
-    margin: auto;
-    width: 40%;
+    margin-left: 45%;
+    
 }
 #center {
     margin-left: 40%;
