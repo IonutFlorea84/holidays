@@ -25,9 +25,9 @@ import java.util.logging.Logger;
  */
 class SqlConnection {
     private Connection conn;
-    private String dbUsername;
-    private String dbPassword;
-    private String dbName;
+    private String dbUsername ="johnbc8_razvan" ;
+    private String dbPassword = "root88" ;
+    private String dbName = "johnbc8_concedii";
     private String tableName = "useri";
     
     protected SqlConnection (String dbName, String dbUser, String dbPass){
@@ -36,7 +36,6 @@ class SqlConnection {
         this.dbPassword = dbPass;
     }    
     protected SqlConnection(){
-        this("johnbc8_concedii","johnbc8_razvan", "root88");
     }
     // Use for DB changes, no return
     
@@ -65,6 +64,27 @@ class SqlConnection {
             throw new RuntimeException ("Cannot found user!", ex);
         }
     }
+    protected User getUserDetails (String username){
+        PreparedStatement state = null;
+        User toReturn = null;
+        String query = "select * from" + tableName + "where username= ?;";
+        
+        try {
+            state = conn.prepareStatement(query);
+            state.setString(1, username);
+            ResultSet result = state.executeQuery();
+            
+            while (result.next()){
+                toReturn = new User(result.getString("username"), result.getString("password"), result.getString("name"), result.getString("surname"),
+                        result.getString("email"), result.getString("department"), result.getDate("hir_date"), result.getString("address"),
+                        result.getInt("phone"), result.getString("gender"));
+            }
+        } catch (Exception e) {
+        }
+        return toReturn;
+    }
+    
+    
     
     protected boolean loginUser (String username, String password){
         PreparedStatement statement = null;
@@ -159,7 +179,24 @@ class SqlConnection {
         
         return toReturn;
     }
-
+    protected boolean sendVacationForm(Vacation form){
+        boolean toReturn = false;
+        String query = "insert into vacation_forms (username, startDate, length, type, comments) "
+                + "value (?, CURDATE(), ?, ?,?)";
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, form.getUsername());
+            statement.setInt(2, form.getLength());
+            statement.setString(3, form.getType());
+            statement.setString(4, form.getComments());
+            
+            toReturn = statement.execute();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return toReturn;
+    }
     
     protected String getTableName() {
         return tableName;

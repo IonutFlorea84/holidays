@@ -21,6 +21,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 /**
  *
@@ -51,15 +53,19 @@ public class Login_form extends HttpServlet {
         sqlConn.makeConnection();
         
         ServletContext context = getServletContext();
-        RequestDispatcher dispatcher = context.getRequestDispatcher("/result.jsp");;
+        RequestDispatcher dispatcher;
         
-        StringBuilder userTable = new StringBuilder("<table>");
-        List<String> tableHeadName = new ArrayList<>();
+        Vacation vac = new Vacation();
+        
+        vac.setId(20);
+        vac.setUsername("ljlk");
         
         
         if (request.getParameter("login") != null) {
             if (sqlConn.loginUser(username, password)) {
                 
+//        StringBuilder userTable = new StringBuilder("<table>");
+//        List<String> tableHeadName = new ArrayList<>();
 //                try {
 //                    ResultSet dbResult = sqlConn.listDB(tableName);
 //                    ResultSetMetaData rsmd = dbResult.getMetaData();
@@ -92,12 +98,18 @@ public class Login_form extends HttpServlet {
 //                    ex.printStackTrace();
 //                }
                 ArrayList<User> userList = sqlConn.listUsers("useri");
-                request.setAttribute("result", "Autentificare reusita");
-                request.setAttribute("list", userList);
                 
-                dispatcher = context.getRequestDispatcher("/listUsers.jsp");
+                HttpSession session = request.getSession();
+                session.setAttribute("userID", username);
+                session.setAttribute("userDetails", sqlConn.getUserDetails(username));
+                session.setAttribute("list", userList );
+                request.setAttribute("result", "Login succesful");
+                
+                
+                dispatcher = context.getRequestDispatcher("/dashboard.jsp");
             } else {
                 request.setAttribute("result", "Username or password wrong");
+                dispatcher = context.getRequestDispatcher("/login.jsp");
             }
             dispatcher.forward(request, response);
         } 

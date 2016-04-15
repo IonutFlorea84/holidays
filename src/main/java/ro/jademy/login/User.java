@@ -12,6 +12,7 @@ import java.util.Date;
  * @author Gabi
  */
 public class User {
+    private int id;
     private String username;
     private String password;
     private String name;
@@ -36,7 +37,6 @@ public class User {
         this.gender = gender;
     }
     public User(){
-        
     }
     
     
